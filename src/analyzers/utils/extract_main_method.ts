@@ -114,26 +114,10 @@ function isStubThrowStatement(statement: TSESTree.Statement): boolean {
 export function hasStubThrow(fn: { body?: TSESTree.Node }): boolean {
   if (!fn.body || fn.body.type !== 'BlockStatement') return false
 
-  const statements = fn.body.body
-
-  // Case 1: single-line stub throw
-  if (statements.length === 1 && isStubThrowStatement(statements[0])) {
-    return true
-  }
-
-  // Case 2: unreachable stub throw after return
-  for (let i = 0; i < statements.length - 1; i++) {
-    const current = statements[i]
-    const next = statements[i + 1]
-
-    if (
-      current.type === 'ReturnStatement' &&
-      isStubThrowStatement(next)
-    ) {
-      return true
-    }
-  }
-
-  return false
+  return fn.body.body.some(
+    (statement) =>
+      statement.type === 'ThrowStatement' &&
+      isStubThrowStatement(statement)
+  )
 }
 
