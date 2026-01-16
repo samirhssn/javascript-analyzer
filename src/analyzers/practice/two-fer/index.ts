@@ -101,6 +101,7 @@ export class TwoFerAnalyzer extends AnalyzerImpl {
 
     if (hasStubThrow(this.mainMethod)) {
       this.disapprove(REMOVE_STUB_THROW())
+      return
     }
 
     // Now we want to ensure that the method signature is sane and that it has
