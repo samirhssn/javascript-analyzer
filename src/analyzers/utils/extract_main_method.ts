@@ -80,7 +80,6 @@ export function extractMainMethod<T extends string = string>(
   return undefined
 }
 
-
 function isNewExpression(node: unknown): node is TSESTree.NewExpression {
   return (
     typeof node === 'object' &&
@@ -110,14 +109,11 @@ function isStubThrowStatement(statement: TSESTree.Statement): boolean {
   )
 }
 
-
 export function hasStubThrow(fn: { body?: TSESTree.Node }): boolean {
   if (!fn.body || fn.body.type !== 'BlockStatement') return false
 
   return fn.body.body.some(
     (statement) =>
-      statement.type === 'ThrowStatement' &&
-      isStubThrowStatement(statement)
+      statement.type === 'ThrowStatement' && isStubThrowStatement(statement)
   )
 }
-
